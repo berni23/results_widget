@@ -37,7 +37,7 @@ with open('data.csv') as fid:
 
 fig = plt.figure()
 
-ax = fig.add_axes([0.1, 0.3, 0.5, 0.7])
+ax = fig.add_axes([0.1, 0.3, 0.5, 0.6])
 
 # make up the isella profile
 
@@ -104,7 +104,7 @@ def callback(event):
     info_dict.clear()
     for d in data:
         if d[1] in alpha_selected and d[2] in vf_selected:
-            l, = ax.plot(d[-2], d[-1], 'r', picker=True)
+            l, = ax.plot(d[-2], d[-1], '0.5', picker=True)
             info_dict[l] = 'alpha = {}, vf = {}'.format(d[1], d[2])
 
     plt.draw()
@@ -115,7 +115,12 @@ def onpick(event):
     Function that gets called if a line is clicked
     """
     if isinstance(event.artist, plt.Line2D):
+        ax.set_title('parameters of this line: ' + info_dict[event.artist], fontsize='small')
         print('parameters of this line: ', info_dict[event.artist])
+        for line in ax.get_lines()[1:]:
+            line.set_color('0.5')
+        event.artist.set_color('r')
+        plt.draw()
 
 
 fig.canvas.mpl_connect('pick_event', onpick)
