@@ -60,28 +60,30 @@ ax._widgets = []
 # create buttons
 
 sim_buttons = []
-button_width = 0.05
-for i, simnr in enumerate(simnr_values):
+button_width = 0.1
 
-        # create the axes for the button
-        _ax = f.add_axes([0.1 + i * 1.1 * button_width, 0.1, button_width, button_width])
+# create the axes for the button
+_ax = f.add_axes([0.1, 0.1, button_width, len(simnr_values) * button_width])
+sim_buttons = w.CheckButtons(_ax, [str(s) for s in simnr_values], [False for s in simnr_values])
+for r in sim_buttons.rectangles:
+    r.set_facecolor("blue")
+    r.set_edgecolor("k")
+    r.set_alpha(0.2)
 
-        # create the button
-        sim_buttons += [w.Button(_ax, str(simnr), color='b', hovercolor='r')]
-
-ax._widgets += sim_buttons  # avoids garbage collection
-
-# define the callback
+ax._widgets += [sim_buttons]  # avoids garbage collection
 
 
 def callback(event):
-    sim_button_states = [_b.active for _b in sim_buttons]
-    selected_values = np.array(simnr_values)[sim_button_states]
+    """
+    The callback for the simulation buttons
+    """
+    states = sim_buttons.get_status()
+    selected_values = np.array(simnr_values)[states]
 
     # delete all simulation lines (keeping the observational line)
 
     for _line in ax.get_lines()[1:]:
-        del(_line)
+        _line.remove()
 
     # plot all lines that match the selected values
 
@@ -94,8 +96,7 @@ def callback(event):
 
 # now link the callback to the buttons
 
-for _b in sim_buttons:
-    _b.on_clicked(callback)
+sim_buttons.on_clicked(callback)
 
 
 plt.show()
