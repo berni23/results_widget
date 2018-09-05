@@ -105,8 +105,9 @@ def callback(event):
     for d in data:
         if d[1] in alpha_selected and d[2] in vf_selected:
             l, = ax.plot(d[-2], d[-1], '0.5', picker=True)
-            info_dict[l] = 'alpha = {}, vf = {}'.format(d[1], d[2])
+            info_dict[l] = r'$\alpha$' + ' = {}, $v_\mathrm{{frag}}$ = {}'.format(d[1], d[2])
 
+    ax.set_title('click on a line to see its parameters!', fontsize='small')
     plt.draw()
 
 
@@ -116,7 +117,6 @@ def onpick(event):
     """
     if isinstance(event.artist, plt.Line2D):
         ax.set_title('parameters of this line: ' + info_dict[event.artist], fontsize='small')
-        print('parameters of this line: ', info_dict[event.artist])
         for line in ax.get_lines()[1:]:
             line.set_color('0.5')
         event.artist.set_color('r')
