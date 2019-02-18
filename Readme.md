@@ -1,8 +1,6 @@
 # Results widget
 
-Reads data from `data.csv` and displays it along with a reference curve.
-Parameters can be selected and the lines update automatically. Clicking on a line
-prints the parameters on the screen.
+Reads data Jaehan Baes simulation and overplots a made-up profile.
 
 Just run `python results_widget.py` from the terminal or from `ipython`, run `%run results_widget.py` to call the plot. Modify it to your needs.
 
